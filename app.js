@@ -61,9 +61,35 @@ const ACHIEVEMENTS = [
     { id: 'points500', name: '积分大师', desc: '累计获得500积分', icon: '💎', condition: (data) => data.totalPoints >= 500 }
 ];
 
+const VENUES = [
+    {
+        name: '上海碳秘馆',
+        address: '虹口区和平公园内',
+        features: '沉浸式影院、骑行磨咖啡豆、再生材料图书馆、屋顶光伏',
+        hours: '除周一外每天开放，个人免预约',
+        url: 'https://www.shhk.gov.cn'
+    },
+    {
+        name: '上海现代建筑科技馆·低碳建筑馆',
+        address: '宝山区蕴川路2000号',
+        features: '数字人讲解、超低能耗建筑实景、五恒系统体验屋、好房子样板间',
+        hours: '免费开放，周六下午样板间开放',
+        url: 'http://satm.org.cn'
+    },
+    {
+        name: '上海绿色低碳技术科创教育基地',
+        address: '松江区鼎源路300号11号楼',
+        features: '光热电与储能制氢平台、3D智造平台、院士工作站、青少年课程',
+        hours: '需预约参观',
+        url: 'http://www.shicti.com'
+    }
+];
+
 class LowCarbonApp {
     constructor() {
         this.data = this.loadData();
+        this.carouselIndex = 0;
+        this.carouselTimer = null;
         this.init();
     }
 
@@ -97,6 +123,7 @@ class LowCarbonApp {
         this.updateHeader();
         this.setupEventListeners();
         this.checkAchievements();
+        this.initCarousel();
     }
 
     seedMockData() {
@@ -665,6 +692,89 @@ class LowCarbonApp {
         setTimeout(() => {
             toast.classList.remove('show');
         }, 2500);
+    }
+
+    initCarousel() {
+        const track = document.getElementById('carousel-track');
+        const dots = document.getElementById('carousel-dots');
+        const prev = document.getElementById('carousel-prev');
+        const next = document.getElementById('carousel-next');
+        const slides = track.querySelectorAll('.carousel-slide');
+
+        dots.innerHTML = VENUES.map((_, i) =>
+            `<button class="carousel-dot${i === 0 ? ' active' : ''}" data-index="${i}"></button>`
+        ).join('');
+
+        const updateInfo = (index) => {
+            const v = VENUES[index];
+            document.getElementById('venue-title').textContent = v.name;
+            document.getElementById('venue-address').textContent = v.address;
+            document.getElementById('venue-features').textContent = v.features;
+            document.getElementById('venue-hours').textContent = v.hours;
+            document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === index);
+            });
+        };
+
+        const goTo = (index) => {
+            this.carouselIndex = index;
+            track.style.transform = `translateX(-${index * 100}%)`;
+            updateInfo(index);
+        };
+
+        dots.addEventListener('click', (e) => {
+            const dot = e.target.closest('.carousel-dot');
+            if (!dot) return;
+            goTo(Number(dot.dataset.index));
+            this.restartCarousel();
+        });
+
+        prev.addEventListener('click', () => {
+            goTo((this.carouselIndex - 1 + VENUES.length) % VENUES.length);
+            this.restartCarousel();
+        });
+
+        next.addEventListener('click', () => {
+            goTo((this.carouselIndex + 1) % VENUES.length);
+            this.restartCarousel();
+        });
+
+        const viewport = document.querySelector('.carousel-viewport');
+        viewport.addEventListener('mouseenter', () => this.stopCarousel());
+        viewport.addEventListener('mouseleave', () => this.startCarousel());
+
+        updateInfo(0);
+        this.startCarousel();
+    }
+
+    startCarousel() {
+        this.stopCarousel();
+        this.carouselTimer = setInterval(() => {
+            const next = (this.carouselIndex + 1) % VENUES.length;
+            this.carouselIndex = next;
+            const track = document.getElementById('carousel-track');
+            track.style.transform = `translateX(-${next * 100}%)`;
+            const v = VENUES[next];
+            document.getElementById('venue-title').textContent = v.name;
+            document.getElementById('venue-address').textContent = v.address;
+            document.getElementById('venue-features').textContent = v.features;
+            document.getElementById('venue-hours').textContent = v.hours;
+            document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === next);
+            });
+        }, 5000);
+    }
+
+    stopCarousel() {
+        if (this.carouselTimer) {
+            clearInterval(this.carouselTimer);
+            this.carouselTimer = null;
+        }
+    }
+
+    restartCarousel() {
+        this.stopCarousel();
+        this.startCarousel();
     }
 }
 

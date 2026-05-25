@@ -747,3 +747,148 @@ body {
 .loading {
     animation: pulse 1.5s ease-in-out infinite;
 }
+
+/* Venue Carousel */
+.venues-section {
+    margin-bottom: 2rem;
+}
+
+.venue-carousel {
+    position: relative;
+}
+
+.carousel-viewport {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    height: 180px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.slide-img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 0.75rem;
+}
+
+.slide-icon {
+    font-size: 3rem;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-name {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.35);
+    border: none;
+    border-radius: 50%;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+
+.carousel-btn:hover {
+    background: rgba(255,255,255,0.55);
+}
+
+.carousel-prev {
+    left: 0.75rem;
+}
+
+.carousel-next {
+    right: 0.75rem;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.carousel-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--border-light);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.carousel-dot.active {
+    background: var(--primary-green);
+    transform: scale(1.3);
+}
+
+.venue-info {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+.venue-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+}
+
+.venue-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    line-height: 1.5;
+    margin-bottom: 0.4rem;
+}
+
+.venue-detail:last-child {
+    margin-bottom: 0;
+}
+
+.venue-label {
+    flex-shrink: 0;
+    font-size: 0.9rem;
+}
