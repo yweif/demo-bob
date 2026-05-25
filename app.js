@@ -454,7 +454,7 @@ class LowCarbonApp {
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
-                if (!document.getElementById('page-home').classList.contains('hidden')) {
+                if (!document.getElementById('page-home').classList.contains('hidden') || !document.getElementById('page-profile').classList.contains('hidden')) {
                     this.renderChart();
                 }
             }, 100);
@@ -469,6 +469,7 @@ class LowCarbonApp {
             this.renderAchievements();
         } else if (page === 'profile') {
             this.renderProfile();
+            this.updateStats();
         } else if (page === 'home') {
             this.renderChart();
         }
