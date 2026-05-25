@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>低碳生活打卡</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <path d="M16 4C9 4 4 9 4 16C4 23 9 28 16 28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M16 4C23 4 28 9 28 16C28 23 23 28 16 28" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 3"/>
+                        <circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>低碳生活</span>
+                </div>
+                <div class="header-slogan">每日低碳一小步，地球美丽一大步</div>
+                <div class="user-stats">
+                    <div class="streak">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 2L12.5 7.5L18 8.5L14 13L15 18.5L10 16L5 18.5L6 13L2 8.5L7.5 7.5L10 2Z" fill="currentColor"/>
+                        </svg>
+                        <span id="streak-days">0天</span>
+                    </div>
+                    <div class="points">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M10 6V14M6 10H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span id="total-points">0积分</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="page" id="page-home">
+                <section class="promo-section">
+                    <div class="promo-card" id="promo-card">
+                        <div class="promo-icon" id="promo-icon">🌍</div>
+                        <div class="promo-content">
+                            <h3 class="promo-title" id="promo-title">低碳生活 从我做起</h3>
+                            <p class="promo-desc" id="promo-desc">每一天的低碳选择，都是对地球的温柔呵护。让我们一起行动，为美好未来贡献力量！</p>
+                        </div>
+                        <button class="promo-refresh" id="promo-refresh">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M1 8C1 4.13 4.13 1 8 1C11.87 1 15 4.13 15 8C15 11.87 11.87 15 8 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M15 4V1H12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </section>
+
+                <section class="today-section">
+                    <div class="section-header">
+                        <h2>今日打卡</h2>
+                        <span class="date" id="today-date"></span>
+                    </div>
+                    <div class="activities-grid" id="activities-grid">
+                    </div>
+                </section>
+
+                <section class="stats-section">
+                    <div class="section-header">
+                        <h2>本周统计</h2>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="week-checkins">0</div>
+                            <div class="stat-label">打卡次数</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="week-carbon">0kg</div>
+                            <div class="stat-label">减少碳排放</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="week-trees">0棵</div>
+                            <div class="stat-label">相当于植树</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="weekly-chart"></canvas>
+                    </div>
+                </section>
+
+                <section class="history-section">
+                    <div class="section-header">
+                        <h2>打卡历史</h2>
+                        <button class="view-all-btn" id="view-all-btn">查看全部</button>
+                    </div>
+                    <div class="history-list" id="history-list">
+                    </div>
+                </section>
+            </div>
+
+            <div class="page hidden" id="page-achievements">
+                <section>
+                    <div class="section-header">
+                        <h2>我的成就</h2>
+                    </div>
+                    <div class="achievements-grid" id="achievements-grid">
+                    </div>
+                </section>
+            </div>
+
+            <div class="page hidden" id="page-profile">
+                <section>
+                    <div class="section-header">
+                        <h2>我的低碳生活</h2>
+                    </div>
+                    <div class="profile-card">
+                        <div class="profile-avatar">🌍</div>
+                        <div class="profile-name">低碳卫士</div>
+                    </div>
+                    <div class="profile-stats-grid">
+                        <div class="profile-stat-item">
+                            <div class="profile-stat-value" id="profile-total-checkins">0</div>
+                            <div class="profile-stat-label">累计打卡</div>
+                        </div>
+                        <div class="profile-stat-item">
+                            <div class="profile-stat-value" id="profile-total-carbon">0kg</div>
+                            <div class="profile-stat-label">累计减碳</div>
+                        </div>
+                        <div class="profile-stat-item">
+                            <div class="profile-stat-value" id="profile-total-points">0</div>
+                            <div class="profile-stat-label">累计积分</div>
+                        </div>
+                        <div class="profile-stat-item">
+                            <div class="profile-stat-value" id="profile-streak">0天</div>
+                            <div class="profile-stat-label">最长连续</div>
+                        </div>
+                        <div class="profile-stat-item">
+                            <div class="profile-stat-value" id="profile-achievements">0</div>
+                            <div class="profile-stat-label">获得成就</div>
+                        </div>
+                        <div class="profile-stat-item">
+                            <div class="profile-stat-value" id="profile-trees">0棵</div>
+                            <div class="profile-stat-label">相当于植树</div>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="profile-btn" id="clear-data-btn">清除所有数据</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-page="home">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>首页</span>
+            </button>
+            <button class="nav-item" data-page="achievements">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>成就</span>
+            </button>
+            <button class="nav-item" data-page="profile">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+                    <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>我的</span>
+            </button>
+        </nav>
+    </div>
+
+    <div class="modal" id="achievement-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>恭喜获得成就!</h3>
+                <button class="close-btn" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="achievement-icon" id="achievement-icon">🌱</div>
+                <div class="achievement-name" id="achievement-name">环保新星</div>
+                <div class="achievement-desc" id="achievement-desc">完成第一次低碳打卡</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="history-modal">
+        <div class="modal-content modal-wide">
+            <div class="modal-header">
+                <h3>全部打卡历史</h3>
+                <button class="close-btn" id="close-history-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="history-modal-body">
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
