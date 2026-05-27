@@ -7,32 +7,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- 登录页面 -->
-    <div class="login-overlay" id="login-overlay">
-        <div class="login-container">
-            <div class="login-header">
-                <div class="login-logo">🌍</div>
-                <h1 class="login-title">低碳生活小助手</h1>
-                <p class="login-subtitle">每日低碳一小步，地球美丽一大步</p>
-            </div>
-            <form class="login-form" id="login-form">
-                <div class="login-field">
-                    <label for="username">用户名</label>
-                    <input type="text" id="username" name="username" placeholder="请输入用户名" required autocomplete="username">
-                </div>
-                <div class="login-field">
-                    <label for="password">密码</label>
-                    <input type="password" id="password" name="password" placeholder="请输入密码" required autocomplete="current-password">
-                </div>
-                <div class="login-error" id="login-error"></div>
-                <button type="submit" class="login-btn">登录</button>
-            </form>
-            <div class="login-footer">
-                <p>提示：用户名 test，密码 12345</p>
-            </div>
-        </div>
-    </div>
-
     <div class="app">
         <header class="header">
             <div class="header-content">
@@ -59,13 +33,6 @@
                         </svg>
                         <span id="total-points">0积分</span>
                     </div>
-                    <button class="logout-btn" id="logout-btn" title="退出登录">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M7 17H3C2.73478 17 2.48043 16.8946 2.29289 16.7071C2.10536 16.5196 2 16.2652 2 16V4C2 3.73478 2.10536 3.48043 2.29289 3.29289C2.48043 3.10536 2.73478 3 3 3H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M14 14L18 10L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M18 10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
                 </div>
             </div>
         </header>

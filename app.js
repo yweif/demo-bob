@@ -114,7 +114,6 @@ class LowCarbonApp {
     }
 
     init() {
-        this.seedMockData();
         this.updateStreak();
         this.showPromo();
         this.renderActivities();
@@ -124,84 +123,6 @@ class LowCarbonApp {
         this.setupEventListeners();
         this.checkAchievements();
         this.initCarousel();
-    }
-
-    seedMockData() {
-        if (Object.keys(this.data.checkins).length > 0) {
-            this.seedPastDays();
-            return;
-        }
-
-        const dates = [];
-        for (let i = 10; i >= 1; i--) {
-            const d = new Date(Date.now() - i * 86400000);
-            dates.push(d.toISOString().split('T')[0]);
-        }
-
-        const activityIds = ACTIVITIES.map(a => a.id);
-        let totalCarbon = 0;
-        let totalPoints = 0;
-        let totalCheckins = 0;
-
-        dates.forEach((date, idx) => {
-            const count = 2 + (idx % 5);
-            const shuffled = [...activityIds].sort(() => Math.random() - 0.5);
-            const picked = shuffled.slice(0, count);
-            this.data.checkins[date] = picked;
-
-            picked.forEach(id => {
-                const act = ACTIVITIES.find(a => a.id === id);
-                if (act) {
-                    totalCarbon += act.carbon;
-                    totalPoints += act.points;
-                    totalCheckins++;
-                }
-            });
-        });
-
-        this.data.totalCarbon = totalCarbon;
-        this.data.totalPoints = totalPoints;
-        this.data.totalCheckins = totalCheckins;
-        this.data.lastCheckinDate = dates[dates.length - 1];
-        this.data.streak = 3;
-        this.saveData();
-    }
-
-    seedPastDays() {
-        const activityIds = ACTIVITIES.map(a => a.id);
-        let carbon = 0;
-        let points = 0;
-        let checkins = 0;
-        let lastDate = null;
-
-        for (let i = 6; i >= 1; i--) {
-            const date = new Date(Date.now() - i * 86400000).toISOString().split('T')[0];
-            if (this.data.checkins[date]) continue;
-
-            const count = 2 + Math.floor(Math.random() * 5);
-            const shuffled = [...activityIds].sort(() => Math.random() - 0.5);
-            const picked = shuffled.slice(0, count);
-            this.data.checkins[date] = picked;
-
-            picked.forEach(id => {
-                const act = ACTIVITIES.find(a => a.id === id);
-                if (act) {
-                    carbon += act.carbon;
-                    points += act.points;
-                    checkins++;
-                }
-            });
-            lastDate = date;
-        }
-
-        this.data.totalCarbon += carbon;
-        this.data.totalPoints += points;
-        this.data.totalCheckins += checkins;
-        if (lastDate) {
-            this.data.lastCheckinDate = lastDate;
-            this.data.streak = 1;
-        }
-        this.saveData();
     }
 
     showPromo() {
@@ -779,70 +700,5 @@ class LowCarbonApp {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 登录验证逻辑
-    const VALID_CREDENTIALS = {
-        username: 'test',
-        password: '12345'
-    };
-    
-    const loginOverlay = document.getElementById('login-overlay');
-    const loginForm = document.getElementById('login-form');
-    const loginError = document.getElementById('login-error');
-    const logoutBtn = document.getElementById('logout-btn');
-    
-    // 检查登录状态
-    function checkLoginStatus() {
-        const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-        if (isLoggedIn) {
-            loginOverlay.classList.add('hidden');
-            return true;
-        }
-        return false;
-    }
-    
-    // 登录处理
-    function handleLogin(e) {
-        e.preventDefault();
-        
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value;
-        
-        if (username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password) {
-            sessionStorage.setItem('isLoggedIn', 'true');
-            sessionStorage.setItem('username', username);
-            loginOverlay.classList.add('hidden');
-            loginError.textContent = '';
-            
-            // 登录成功后初始化应用
-            if (!window.lowCarbonApp) {
-                window.lowCarbonApp = new LowCarbonApp();
-            }
-        } else {
-            loginError.textContent = '用户名或密码错误，请重试';
-            document.getElementById('password').value = '';
-        }
-    }
-    
-    // 退出登录
-    function handleLogout() {
-        sessionStorage.removeItem('isLoggedIn');
-        sessionStorage.removeItem('username');
-        loginOverlay.classList.remove('hidden');
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        loginError.textContent = '';
-        
-        // 显示提示
-        alert('已退出登录');
-    }
-    
-    // 绑定事件
-    loginForm.addEventListener('submit', handleLogin);
-    logoutBtn.addEventListener('click', handleLogout);
-    
-    // 检查初始登录状态
-    if (checkLoginStatus()) {
-        // 已登录，初始化应用
-        window.lowCarbonApp = new LowCarbonApp();
-    }
+    new LowCarbonApp();
 });
