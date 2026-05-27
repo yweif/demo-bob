@@ -779,5 +779,70 @@ class LowCarbonApp {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new LowCarbonApp();
+    // 登录验证逻辑
+    const VALID_CREDENTIALS = {
+        username: 'test',
+        password: '12345'
+    };
+    
+    const loginOverlay = document.getElementById('login-overlay');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const logoutBtn = document.getElementById('logout-btn');
+    
+    // 检查登录状态
+    function checkLoginStatus() {
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+            loginOverlay.classList.add('hidden');
+            return true;
+        }
+        return false;
+    }
+    
+    // 登录处理
+    function handleLogin(e) {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        
+        if (username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password) {
+            sessionStorage.setItem('isLoggedIn', 'true');
+            sessionStorage.setItem('username', username);
+            loginOverlay.classList.add('hidden');
+            loginError.textContent = '';
+            
+            // 登录成功后初始化应用
+            if (!window.lowCarbonApp) {
+                window.lowCarbonApp = new LowCarbonApp();
+            }
+        } else {
+            loginError.textContent = '用户名或密码错误，请重试';
+            document.getElementById('password').value = '';
+        }
+    }
+    
+    // 退出登录
+    function handleLogout() {
+        sessionStorage.removeItem('isLoggedIn');
+        sessionStorage.removeItem('username');
+        loginOverlay.classList.remove('hidden');
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        loginError.textContent = '';
+        
+        // 显示提示
+        alert('已退出登录');
+    }
+    
+    // 绑定事件
+    loginForm.addEventListener('submit', handleLogin);
+    logoutBtn.addEventListener('click', handleLogout);
+    
+    // 检查初始登录状态
+    if (checkLoginStatus()) {
+        // 已登录，初始化应用
+        window.lowCarbonApp = new LowCarbonApp();
+    }
 });
